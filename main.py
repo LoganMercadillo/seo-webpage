@@ -1,6 +1,9 @@
 from flask import Flask, render_template, url_for, flash, redirect
 from forms import RegistrationForm
 from flask_behind_proxy import FlaskBehindProxy
+from flask_sqlalchemy import SQLAlchemy
+
+
 # this gets the name of the file so Flask knows it's name
 app = Flask(__name__)
 proxied = FlaskBehindProxy(app)
@@ -16,6 +19,7 @@ def hello_world():
                            text='This is the home page')
 
 
+# second page
 @app.route("/second_page")
 def second_page():
     return render_template('second_page.html', subtitle='Second Page',
