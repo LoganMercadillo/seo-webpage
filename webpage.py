@@ -1,4 +1,6 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for, flash, redirect
+from forms import RegistrationForm
+from flask_behind_proxy import FlaskBehindProxy
 # this gets the name of the file so Flask knows it's name
 app = Flask(__name__)
 

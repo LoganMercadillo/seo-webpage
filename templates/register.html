@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+{% block content %}
+    <!-- adds CSS styling -->
+    <div class="content-section">
+        <!-- POST sends the information of the form -->
+        <form method="POST" action="">
+            <!-- passes in your SECRET KEY -->
+            {{ form.hidden_tag() }}
+            <!-- separates a collection of form fields, 
+                each one matching a field from forms.py.
+                also adds more CSS styling-->
+            <fieldset class="form-group">
+                <!-- separates a form element, adds some CSS styling -->
+                <div class="form-group">
+                    <!-- passing in our form -->
+                    {{ form.username.label(class="form-control-label") }}
+                    <!-- catch data validation errors -->
+                    {% if form.username.errors %}
+                        {{ form.username(class="form-control form-control-lg is-invalid") }}
+                        <!-- adds more CSS styling -->
+                        <div class="invalid-feedback">
+                        {% for error in form.username.errors%}
+                            <span>{{error}}</span>
+                        {% endfor %}
+                        </div>
+                    <!-- if no errors, add StringField from forms.py w/out any messages -->
+                    {% else %}
+                        {{ form.username(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+
+                <!-- this is the email form field -->
+                <div class="form-group">
+                    {{ form.email.label(class="form-control-label") }}
+                    {% if form.email.errors %}
+                      {{ form.email(class="form-control form-control-lg is-invalid") }}
+                      <div class="invalid-feedback">
+                        {% for error in form.email.errors%}
+                            <span>{{error}}</span>
+                        {% endfor %}
+                      </div>
+                  {% else %}
+                      {{ form.email(class="form-control form-control-lg") }}
+                  {% endif %}
+                </div>
+
+                <!-- this is the password form field -->
+                <div class="form-group">
+                    {{ form.password.label(class="form-control-label") }}
+                    {% if form.password.errors %}
+                      {{ form.password(class="form-control form-control-lg is-invalid") }}
+                      <div class="invalid-feedback">
+                        {% for error in form.password.errors%}
+                            <span>{{error}}</span>
+                        {% endfor %}
+                      </div>
+                  {% else %}
+                      {{ form.password(class="form-control form-control-lg") }}
+                  {% endif %}
+                </div>
+
+                <!-- this is the confirm_password form field -->
+                <div class="form-group">
+                    {{ form.confirm_password.label(class="form-control-label") }}
+                    {% if form.confirm_password.errors %}
+                      {{ form.confirm_password(class="form-control form-control-lg is-invalid") }}
+                      <div class="invalid-feedback">
+                        {% for error in form.confirm_password.errors%}
+                            <span>{{error}}</span>
+                        {% endfor %}
+                      </div>
+                  {% else %}
+                      {{ form.confirm_password(class="form-control form-control-lg") }}
+                  {% endif %}
+                </div>
+            </fieldset>
+            <!-- Submit the form -->
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+                </div>
+        </form>
+    </div>
+{% endblock content %}
