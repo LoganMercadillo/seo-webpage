@@ -3,6 +3,8 @@ from forms import RegistrationForm
 from flask_behind_proxy import FlaskBehindProxy
 # this gets the name of the file so Flask knows it's name
 app = Flask(__name__)
+proxied = FlaskBehindProxy(app)
+app.config['SECRET_KEY'] = 'f469b62dd5d493ae3bb500382bb84961'
 
 
 # this tells you the URL the method below is related to
@@ -18,6 +20,19 @@ def hello_world():
 def second_page():
     return render_template('second_page.html', subtitle='Second Page',
                            text='This is the second page')
+
+
+# Registration page
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+    # checks if entries are valid
+    if form.validate_on_submit():
+        flash(f'Account created for {form.username.data}!', 'success')
+        # if valid - load home page
+        return redirect(url_for('home'))
+    # if not valid - reload registration page
+    return render_template('register.html', title='Register', form=form)
 
 
 # this should always be at the end
