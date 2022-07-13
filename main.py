@@ -9,11 +9,25 @@ app = Flask(__name__)
 proxied = FlaskBehindProxy(app)
 app.config['SECRET_KEY'] = 'f469b62dd5d493ae3bb500382bb84961'
 
+# database set-up
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+db = SQLAlchemy(app)
+
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(60), nullable=False)
+
+    def __repr__(self):
+        return f"User('{self.username}', '{self.email}')"
+
 
 # this tells you the URL the method below is related to
 @app.route("/")
 @app.route("/home")
-def hello_world():
+def home():
     # this prints HTML to the webpage
     return render_template('home.html', subtitle='Home Page',
                            text='This is the home page')
@@ -30,12 +44,20 @@ def second_page():
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
-    # checks if entries are valid
+    # entries are valid
     if form.validate_on_submit():
+        # send form data to database
+        user = User(username=form.username.data,
+                    email=form.email.data,
+                    password=form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        # notify user of success
         flash(f'Account created for {form.username.data}!', 'success')
-        # if valid - load home page
+        # send to home page
         return redirect(url_for('home'))
-    # if not valid - reload registration page
+
+    # entries are invalid - reload registration page
     return render_template('register.html', title='Register', form=form)
 
 
