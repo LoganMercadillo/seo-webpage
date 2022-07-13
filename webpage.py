@@ -1,13 +1,15 @@
-from flask import Flask
+from flask import Flask, render_template
 # this gets the name of the file so Flask knows it's name
 app = Flask(__name__)
 
 
 # this tells you the URL the method below is related to
 @app.route("/")
+@app.route("/home")
 def hello_world():
     # this prints HTML to the webpage
-    return "<p>Hello, World!</p>"
+    return render_template('home.html', subtitle='Home Page',
+                           text='This is the home page')
 
 
 # this should always be at the end
