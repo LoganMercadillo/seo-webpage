@@ -3,7 +3,7 @@ import sys
 
 from flask import Response
 # imports python file from parent directory
-sys.path.append('../wk3frendproj')
+sys.path.append('../seo-webpage')
 from main import app  # imports flask app object
 
 
